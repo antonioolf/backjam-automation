@@ -14,4 +14,6 @@ class Functions:
     def delete_non_mp3_files():
         non_mp3_files = Functions.list_from_folder('downloads', '^(?!.*?.+\\.mp3).*')
         for file in non_mp3_files:
+            if '/.gitkeep' in file:
+                continue
             os.remove(file)

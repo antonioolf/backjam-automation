@@ -1,8 +1,10 @@
 .idea
 __pycache__/
 
+to-download.txt
+
 downloads/*.mp3
 downloads/*.m4a
-downloads/*.m4a.part
+downloads/*.*.part
 
 to-upload/*.mp3
