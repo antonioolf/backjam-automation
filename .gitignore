@@ -1,0 +1,8 @@
+.idea
+__pycache__/
+
+downloads/*.mp3
+downloads/*.m4a
+downloads/*.m4a.part
+
+to-upload/*.mp3
