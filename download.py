@@ -1,7 +1,7 @@
 import os
 import requests
 
-from env import key, playlist_id
+from env import youtube_api_key, playlist_id
 from functions import Functions
 
 # TODO: Implementar paginação quando playlist completar 50 vídeos
@@ -9,7 +9,7 @@ from functions import Functions
 youtube_api = 'https://www.googleapis.com/youtube/v3'
 max_results = 50
 
-playlist_videos_url = f'{youtube_api}/playlistItems?key={key}&playlistId={playlist_id}' \
+playlist_videos_url = f'{youtube_api}/playlistItems?key={youtube_api_key}&playlistId={playlist_id}' \
                       f'&part=snippet,id&type=video&maxResults={max_results}'
 
 
