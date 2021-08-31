@@ -21,11 +21,23 @@ def delete_synchronized_files(google_drive_files):
             os.remove(f'./to-upload/{synchronized_item["full_name"]}')
 
 
+def commit_push_backing_tracks_json():
+    print('Publicando backing-tracks.json usando Git')
+    os.system(
+        'git init && '
+        'git remote set-url origin git@github.com:antonioolf/backjam-automation.git && '
+        'git add backing-tracks.json && '
+        'git commit -m "Update backing-tracks.json" && '
+        'git push -u origin main'
+    )
+
+
 def run():
     google_drive_files = Functions.get_google_drive_files_list()
     update_public_list(json.dumps(google_drive_files, indent=4))
 
     delete_synchronized_files(google_drive_files)
+    commit_push_backing_tracks_json()
 
 
 if __name__ == '__main__':
