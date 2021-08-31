@@ -36,7 +36,7 @@ def update_to_download_file(video_ids_list):
 
 def find_ids_without_file(video_ids):
     """
-    Encontra ids que ainda não tem um arquivo no Google Drive nem na pasta "to-upload" nem na pasta "downloads"
+    Encontra ids que ainda não tem um arquivo no Google Drive nem na pasta "to-upload" e nem na pasta "downloads"
     """
     result = []
     google_drive_files = [file['full_name'] for file in Functions.get_google_drive_files_list()]
