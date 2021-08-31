@@ -11,6 +11,7 @@ import os.path
 from googleapiclient.discovery import build
 import re
 
+from apis.google_drive import GoogleDrive
 from env import google_drive_public_folder_id
 from functions import Functions
 
@@ -39,7 +40,7 @@ def upload_unlisted_files(google_drive_existent_files):
         print('Nenhum arquivo para subir')
         return
 
-    credentials = Functions.google_drive_auth()
+    credentials = GoogleDrive.google_drive_auth()
     service = build('drive', 'v3', credentials=credentials)
 
     for local_file in files_in_upload_folder:
@@ -86,7 +87,7 @@ def run():
     else:
         move_to_upload_folder_or_delete_broken(files)
 
-    google_drive_files = Functions.get_google_drive_files_list()
+    google_drive_files = GoogleDrive.get_google_drive_files_list()
     upload_unlisted_files(google_drive_files)
 
 

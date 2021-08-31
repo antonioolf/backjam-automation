@@ -3,6 +3,7 @@ import re
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from googleapiclient import errors
 from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/drive.file']
@@ -32,7 +33,7 @@ class GoogleDrive:
 
     @staticmethod
     def get_google_drive_files_list():
-        credentials = Functions.google_drive_auth()
+        credentials = GoogleDrive.google_drive_auth()
         service = build('drive', 'v3', credentials=credentials)
 
         files = service.files()
@@ -58,3 +59,18 @@ class GoogleDrive:
                 })
 
         return result
+
+    @staticmethod
+    def delete_file(file):
+        print(f'Deletando do Google Drive "{file["full_name"]}"')
+        credentials = GoogleDrive.google_drive_auth()
+        service = build('drive', 'v3', credentials=credentials)
+
+        matches = re.compile('https://drive\\.google\\.com/uc\\?id=(.+)&export=download').match(file['url'])
+        google_drive_id = matches.groups()[0]
+
+        try:
+            service.files().delete(fileId=google_drive_id).execute()
+        except errors.HttpError:
+            print('An error occurred: %s' % errors.HttpError)
+

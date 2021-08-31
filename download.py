@@ -1,27 +1,10 @@
 import os
 import re
 
-import requests
-
-from env import youtube_api_key, playlist_id
+from apis.youtube import YouTube
+from env import playlist_id
 from functions import Functions
-
-youtube_api = 'https://www.googleapis.com/youtube/v3'
-max_results = 50
-
-playlist_videos_url = f'{youtube_api}/playlistItems?key={youtube_api_key}&playlistId={playlist_id}' \
-                      f'&part=snippet,id&type=video&maxResults={max_results}'
-
-
-def get_ids():
-    res = requests.get(playlist_videos_url)
-    result = []
-    for video in res.json()['items']:
-        video_id = video['snippet']['resourceId']['videoId']
-        result.append(video_id)
-
-    print(f'{len(result)} videos na playlist')
-    return result
+from apis.google_drive import GoogleDrive
 
 
 def update_to_download_file(video_ids_list):
@@ -37,7 +20,7 @@ def find_ids_without_file(video_ids):
     Encontra ids que ainda não tem um arquivo no Google Drive nem na pasta "to-upload" e nem na pasta "downloads"
     """
     result = []
-    google_drive_files = [file['full_name'] for file in Functions.get_google_drive_files_list()]
+    google_drive_files = [file['full_name'] for file in GoogleDrive.get_google_drive_files_list()]
     for video_id in video_ids:
         existing_files_to_upload = Functions.list_from_folder('to-upload', f'{video_id} \\- .+')
         existing_files_downloads = Functions.list_from_folder('downloads', f'{video_id} \\- .+')
@@ -63,7 +46,7 @@ def run_youtube_dl():
 
 def run():
     Functions.delete_non_mp3_files()
-    video_ids = get_ids()
+    video_ids = YouTube.get_video_ids_from_playlist(playlist_id)
     video_id_without_file_list = find_ids_without_file(video_ids)
     update_to_download_file(video_id_without_file_list)
     if len(video_id_without_file_list) > 0:
