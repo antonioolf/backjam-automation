@@ -1,4 +1,6 @@
 import os
+import re
+
 import requests
 
 from env import youtube_api_key, playlist_id
@@ -34,14 +36,18 @@ def update_to_download_file(video_ids_list):
 
 def find_ids_without_file(video_ids):
     """
-    Encontra ids que ainda não tem um arquivo na pasta "to-upload" nem na pasta "downloads"
+    Encontra ids que ainda não tem um arquivo no Google Drive nem na pasta "to-upload" nem na pasta "downloads"
     """
     result = []
+    google_drive_files = [file['full_name'] for file in Functions.get_google_drive_files_list()]
     for video_id in video_ids:
         existing_files_to_upload = Functions.list_from_folder('to-upload', f'{video_id} \\- .+')
         existing_files_downloads = Functions.list_from_folder('downloads', f'{video_id} \\- .+')
 
-        if not existing_files_to_upload and not existing_files_downloads:
+        p = re.compile(f'{video_id} - .+')
+        existing_files_google_drive = [g for g in google_drive_files if p.match(g)]
+
+        if not existing_files_to_upload and not existing_files_downloads and not existing_files_google_drive:
             result.append(video_id)
 
     print(f'{len(result)} videos sem mp3 baixado')

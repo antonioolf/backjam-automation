@@ -2,23 +2,25 @@
 Varre pasta downloads
 Verifica se o arquivo não está quebrado
 Move para pasta to-upload
-Pasta to-upload está sincronizada com Google Drive
+Faz upload para Google Drive
 """
-import os
-import re
-import shutil
+from __future__ import print_function
+
 import math
+import os
+import shutil
+
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
 from mutagen.mp3 import MP3
 
+import json
+import os.path
+from googleapiclient.discovery import build
+import re
+
+from env import google_drive_public_folder_id
 from functions import Functions
-
-
-def id_range_str(file):
-    return file[12:26]
-
-
-def without_downloads_range_str(file):
-    return file[12:]
 
 
 def is_broken(file):
@@ -33,10 +35,54 @@ def is_broken(file):
     broken = difference > 2
     msg = 'Corrompido' if broken else 'Ok'
 
-    print(f'Diferença: {difference}s - {id_range_str(file)} {msg}')
+    print(f'Diferença: {difference}s - {file[12:26]} {msg}')
 
     # Diferença de tempo é maior que 2 segundos?
     return broken
+
+
+def upload_unlisted_files(google_drive_existent_files):
+    files_in_upload_folder = Functions.list_from_folder('to-upload', '.+\\.mp3')
+    if len(files_in_upload_folder) == 0:
+        print('Nenhum arquivo para subir')
+        return
+
+    credentials = Functions.google_drive_auth()
+    service = build('drive', 'v3', credentials=credentials)
+
+    for local_file in files_in_upload_folder:
+        clean_filename = local_file.replace('./to-upload/', '')
+
+        if clean_filename in [file['full_name'] for file in google_drive_existent_files]:
+            print(f'Arquivo já disponível no Google Drive: "{clean_filename}"')
+            continue
+
+        file_metadata = {
+            'name': clean_filename,
+            'parents': [google_drive_public_folder_id]
+        }
+
+        print(f'Fazendo upload... ({clean_filename})')
+        media = MediaFileUpload(local_file, mimetype='audio/mpeg', resumable=True)
+        file = service.files().create(
+            body=file_metadata,
+            media_body=media,
+            fields='id'
+        ).execute()
+
+        print(f'Finalizado! Id: {file.get("id")} \n')
+
+
+def move_to_upload_folder_or_delete_broken(files):
+    print('Verificando se arquivos estão corrompidos de acordo com a diferença de tempo')
+    for file in files:
+        broken = is_broken(file)
+
+        if broken:
+            os.remove(file)
+            print(f'Arquivo corrompido excluído: {file}')
+        else:
+            shutil.move(file, f'./to-upload/{file.replace("./downloads/", "")}')
 
 
 def run():
@@ -46,15 +92,10 @@ def run():
     if len(files) == 0:
         print('Nenhum arquivo disponível na pasta downloads')
     else:
-        print('Verificando se arquivos estão corrompidos de acordo com a diferença de tempo')
-        for file in files:
-            broken = is_broken(file)
+        move_to_upload_folder_or_delete_broken(files)
 
-            if broken:
-                os.remove(file)
-                print(f'Arquivo corrompido excluído: {file}')
-            else:
-                shutil.move(file, f'./to-upload/{without_downloads_range_str(file)}')
+    google_drive_files = Functions.get_google_drive_files_list()
+    upload_unlisted_files(google_drive_files)
 
 
 if __name__ == '__main__':

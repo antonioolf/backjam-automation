@@ -1,58 +1,32 @@
-"""
-- Obtém links dos arquivos via Google Drive Api
-- Manipula para torná-los acessíveis via ExoPlayer
-- Atualiza lista pública versionada
-"""
-
-from __future__ import print_function
-import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-
-# If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
+import json
+import os
+from functions import Functions
 
 
-def main():
-    """Shows basic usage of the Drive v3 API.
-    Prints the names and ids of the first 10 files the user has access to.
-    """
-    creds = None
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
+def update_public_list(data):
+    print('Atualizando lista pública do aplicativo')
+    with open('backing-tracks.json', 'w') as file:
+        file.write(data)
 
-    service = build('drive', 'v3', credentials=creds)
 
-    # Call the Drive v3 API
-    results = service.files().list(
-        pageSize=10,
-        fields="nextPageToken, files(id, name)"
-    ).execute()
+def delete_synchronized_files(google_drive_files):
+    local_to_upload_files = [
+        f.replace('./to-upload/', '')
+        for f in Functions.list_from_folder('to-upload', '.+\\.mp3')
+    ]
 
-    items = results.get('files', [])
+    for synchronized_item in google_drive_files:
+        if synchronized_item['full_name'] in local_to_upload_files:
+            print(f'Deletando arquivo já sincronizado ({synchronized_item["full_name"]})')
+            os.remove(f'./to-upload/{synchronized_item["full_name"]}')
 
-    if not items:
-        print('No files found.')
-    else:
-        print('Files:')
-        for item in items:
-            print(u'{0} ({1})'.format(item['name'], item['id']))
+
+def run():
+    google_drive_files = Functions.get_google_drive_files_list()
+    update_public_list(json.dumps(google_drive_files, indent=4))
+
+    delete_synchronized_files(google_drive_files)
 
 
 if __name__ == '__main__':
-    main()
+    run()
