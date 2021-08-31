@@ -6,8 +6,6 @@ import requests
 from env import youtube_api_key, playlist_id
 from functions import Functions
 
-# TODO: Implementar paginação quando playlist completar 50 vídeos
-
 youtube_api = 'https://www.googleapis.com/youtube/v3'
 max_results = 50
 
@@ -47,7 +45,9 @@ def find_ids_without_file(video_ids):
         p = re.compile(f'{video_id} - .+')
         existing_files_google_drive = [g for g in google_drive_files if p.match(g)]
 
-        if not existing_files_to_upload and not existing_files_downloads and not existing_files_google_drive:
+        if len(existing_files_to_upload) == 0 and \
+                len(existing_files_downloads) == 0 and \
+                len(existing_files_google_drive) == 0:
             result.append(video_id)
 
     print(f'{len(result)} videos sem mp3 baixado')

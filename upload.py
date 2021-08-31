@@ -1,20 +1,12 @@
-"""
-Varre pasta downloads
-Verifica se o arquivo não está quebrado
-Move para pasta to-upload
-Faz upload para Google Drive
-"""
 from __future__ import print_function
 
 import math
 import os
 import shutil
 
-from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from mutagen.mp3 import MP3
 
-import json
 import os.path
 from googleapiclient.discovery import build
 import re
