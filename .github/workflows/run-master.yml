@@ -15,8 +15,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
+      
       with:
         python-version: '3.8'
         architecture: 'x64'
+      
+      env:
+        YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }},
+        PLAYLIST_ID: ${{ secrets.PLAYLIST_ID }},
+        GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }},
+        GOOGLE_DRIVE_PUBLIC_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_PUBLIC_FOLDER_ID }}
+
     - run: pip install -r requirements.txt
     - run: python master.py
