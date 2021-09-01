@@ -1,5 +1,4 @@
 import json
-import os
 
 from apis.google_drive import GoogleDrive
 from functions import Functions
