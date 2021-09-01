@@ -22,11 +22,11 @@ A automação possui os seguintes 4 módulos: `download.py`, `upload.py`, `publi
 - Deleta arquivos corrompidos e arquivos que não estão no formato `mp3`
 - Deleta arquivos mp3 cuja a duração tenha uma diferença do vídeo original maior do que `2s` 
 - Faz o upload dos arquivos que ainda não foram sincronizados no Google Drive
+- Deleta arquivos locais que foram sincronizados com o Google Drive
 
 ### Publish
 - Atualiza lista que será utilizada para alimentar o aplicativo (`backing-tracks.json`)
 - Commita as alterações do arquivo `backing-tracks.json` e sobe para o repositório.
-- Deleta arquivos locais que já foram sincronizados com o Google Drive
 
 ### Remove
 - Obtém lista de vídeos da playlist do YouTube
