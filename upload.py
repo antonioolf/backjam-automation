@@ -78,6 +78,18 @@ def move_to_upload_folder_or_delete_broken(files):
             shutil.move(file, f'./to-upload/{file.replace("./downloads/", "")}')
 
 
+def delete_synchronized_files(google_drive_files):
+    local_to_upload_files = [
+        f.replace('./to-upload/', '')
+        for f in Functions.list_from_folder('to-upload', '.+\\.mp3')
+    ]
+
+    for synchronized_item in google_drive_files:
+        if synchronized_item['full_name'] in local_to_upload_files:
+            print(f'Deletando arquivo já sincronizado ({synchronized_item["full_name"]})')
+            os.remove(f'./to-upload/{synchronized_item["full_name"]}')
+
+
 def run():
     Functions.delete_non_mp3_files()
     files = Functions.list_from_folder('downloads', '.+\\.mp3')
@@ -89,6 +101,9 @@ def run():
 
     google_drive_files = GoogleDrive.get_google_drive_files_list()
     upload_unlisted_files(google_drive_files)
+
+    google_drive_files = GoogleDrive.get_google_drive_files_list()
+    delete_synchronized_files(google_drive_files)
 
 
 if __name__ == '__main__':

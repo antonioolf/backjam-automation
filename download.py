@@ -21,6 +21,8 @@ def find_ids_without_file(video_ids):
     """
     result = []
     google_drive_files = [file['full_name'] for file in GoogleDrive.get_google_drive_files_list()]
+    print(f'{len(google_drive_files)} arquivos no Google Drive')
+
     for video_id in video_ids:
         existing_files_to_upload = Functions.list_from_folder('to-upload', f'{video_id} \\- .+')
         existing_files_downloads = Functions.list_from_folder('downloads', f'{video_id} \\- .+')
