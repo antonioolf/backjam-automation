@@ -58,7 +58,6 @@ class GoogleDrive:
                     'url': item['webContentLink']
                 })
 
-        print(f'{len(result)} arquivos no Google Drive')
         return result
 
     @staticmethod
