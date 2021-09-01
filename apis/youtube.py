@@ -12,6 +12,14 @@ class YouTube:
                               f'&part=snippet,id&type=video&maxResults={max_results}'
 
         res = requests.get(playlist_videos_url)
+
+        if res.status_code >= 400:
+            print(f'status_code: {res.status_code}')
+            print(f'reason: {res.reason}')
+            print(f'url: {res.url}')
+            print(res.text)
+            exit(0)
+
         result = []
         for video in res.json()['items']:
             video_id = video['snippet']['resourceId']['videoId']
