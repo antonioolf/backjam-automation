@@ -25,6 +25,8 @@ class Functions:
         os.system(
             'git init && '
             # 'git reset && '
+            'git config --global user.email "backjam.app@gmail.com" && '
+            'git config --global user.name "BackJam" && '
             'git add backing-tracks.json && '
             'git commit -m "Update backing-tracks.json" && '
             f'git push https://{gh_token}@github.com/antonioolf/backjam-automation.git'
