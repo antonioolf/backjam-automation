@@ -25,7 +25,6 @@ class Functions:
         os.system(
             'git init && '
             f'git remote add set-url https://antonioolf:{gh_token}@backjam-automation.git && '
-            # 'git reset && '
             'git config --global user.email "backjam.app@gmail.com" && '
             'git config --global user.name "BackJam" && '
             'git add backing-tracks.json && '
