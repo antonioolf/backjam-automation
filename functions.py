@@ -25,7 +25,7 @@ class Functions:
         os.system(
             'git init && '
             f'git remote set-url origin https://antonioolf:{gh_token}@github.com/antonioolf/backjam-automation.git'
-            'git reset && '
+            # 'git reset && '
             'git add backing-tracks.json && '
             'git commit -m "Update backing-tracks.json" && '
             'git push -u origin main'
