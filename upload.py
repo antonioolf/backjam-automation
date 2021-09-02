@@ -40,7 +40,7 @@ def upload_unlisted_files(google_drive_existent_files):
         print('Nenhum arquivo para subir')
         return
 
-    credentials = GoogleDrive.google_drive_auth()
+    credentials = GoogleDrive.google_drive_auth_s_a()
     service = build('drive', 'v3', credentials=credentials)
 
     for local_file in files_in_upload_folder:

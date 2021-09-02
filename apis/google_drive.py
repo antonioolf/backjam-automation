@@ -1,10 +1,8 @@
-import os
 import re
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 from googleapiclient import errors
 from googleapiclient.discovery import build
+from google.oauth2 import service_account
+
 
 SCOPES = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/drive.file']
 
@@ -12,28 +10,16 @@ SCOPES = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/a
 class GoogleDrive:
 
     @staticmethod
-    def google_drive_auth():
-        credentials = None
-        # The file token.json stores the user's access and refresh tokens, and is
-        # created automatically when the authorization flow completes for the first
-        # time.
-        if os.path.exists('token.json'):
-            credentials = Credentials.from_authorized_user_file('token.json', SCOPES)
-        # If there are no (valid) credentials available, let the user log in.
-        if not credentials or not credentials.valid:
-            if credentials and credentials.expired and credentials.refresh_token:
-                credentials.refresh(Request())
-            else:
-                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
-                credentials = flow.run_local_server(port=0)
-            # Save the credentials for the next run
-            with open('token.json', 'w') as token:
-                token.write(credentials.to_json())
+    def google_drive_auth_s_a():
+        scopes = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/drive.readonly']
+        key_file_location = 'credentials.json'
+        credentials = service_account.Credentials.from_service_account_file(key_file_location, scopes=scopes)
+
         return credentials
 
     @staticmethod
     def get_google_drive_files_list():
-        credentials = GoogleDrive.google_drive_auth()
+        credentials = GoogleDrive.google_drive_auth_s_a()
         service = build('drive', 'v3', credentials=credentials)
 
         files = service.files()
@@ -63,7 +49,7 @@ class GoogleDrive:
     @staticmethod
     def delete_file(file):
         print(f'Deletando do Google Drive "{file["full_name"]}"')
-        credentials = GoogleDrive.google_drive_auth()
+        credentials = GoogleDrive.google_drive_auth_s_a()
         service = build('drive', 'v3', credentials=credentials)
 
         matches = re.compile('https://drive\\.google\\.com/uc\\?id=(.+)&export=download').match(file['url'])
@@ -74,3 +60,20 @@ class GoogleDrive:
         except errors.HttpError:
             print('An error occurred: %s' % errors.HttpError)
 
+    """
+    # Deprecated
+    @staticmethod
+    def google_drive_auth_normal_user():
+        credentials = None
+        if os.path.exists('token.json'):
+            credentials = Credentials.from_authorized_user_file('token.json', SCOPES)
+        if not credentials or not credentials.valid:
+            if credentials and credentials.expired and credentials.refresh_token:
+                credentials.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+                credentials = flow.run_local_server(port=0)
+            with open('token.json', 'w') as token:
+                token.write(credentials.to_json())
+        return credentials
+        """
