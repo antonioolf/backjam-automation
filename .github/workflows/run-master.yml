@@ -26,7 +26,7 @@ jobs:
       run: pip install -r requirements.txt
 
     - name: "Install ffmpeg"
-      run: sudo apt-get install ffmpeg
+      run: sudo apt-get install libssh-gcrypt-4 ffmpeg
 
     - name: "Run project"
       run: python master.py
