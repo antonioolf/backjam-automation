@@ -38,4 +38,3 @@ A automação possui os seguintes 4 módulos: `download.py`, `upload.py`, `publi
 ## TO-DO list
 - [ ] Implementar paginação da listagem da playlist quando a mesma completar 50 vídeos
 - [ ] Fazer tratativas necessárias para a automação e aplicativo quando a playlist atingir o limite de 5000 vídeos
-- [ ] Implementar remoção de vídeos
