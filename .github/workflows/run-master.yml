@@ -26,7 +26,7 @@ jobs:
       run: pip install -r requirements.txt
 
     - name: "Install ffmpeg"
-      run: sudo apt-get update && sudo apt-get upgrade && sudo apt-get install ffmpeg
+      run: sudo apt-get update && sudo apt-get install ffmpeg
 
     - name: "Run project"
       run: python master.py
