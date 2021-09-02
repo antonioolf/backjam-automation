@@ -1,22 +1,24 @@
 import json
 import re
-from googleapiclient import errors
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
 from env import google_drive_credentials_json
 
-SCOPES = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/drive.file']
+SCOPES = [
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/drive.file',
+    'https://www.googleapis.com/auth/drive.file'
+]
 
 
 class GoogleDrive:
 
     @staticmethod
     def google_drive_auth_s_a():
-        scopes = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/drive.readonly']
         credentials = service_account.Credentials.from_service_account_info(
             json.loads(google_drive_credentials_json, strict=False),
-            scopes=scopes
+            scopes=SCOPES
         )
 
         return credentials
@@ -61,8 +63,8 @@ class GoogleDrive:
 
         try:
             service.files().delete(fileId=google_drive_id).execute()
-        except errors.HttpError:
-            print('An error occurred: %s' % errors.HttpError)
+        except Exception as ex:
+            print(ex.error_details)
 
     """
     # Deprecated
