@@ -24,12 +24,6 @@ jobs:
 
     - name: "Install dependencies"
       run: pip install -r requirements.txt
-      
-    - name: "Get GD credentials"
-      run: 'echo "$GOOGLE_DRIVE_CREDENTIALS_JSON" > credentials.json'
-      shell: bash
-      env:
-        SSH_KEY: ${{secrets.GOOGLE_DRIVE_CREDENTIALS_JSON}}
 
     - name: "Run project"
       run: python master.py
@@ -38,3 +32,4 @@ jobs:
         PLAYLIST_ID: ${{ secrets.PLAYLIST_ID }}
         GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
         GOOGLE_DRIVE_PUBLIC_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_PUBLIC_FOLDER_ID }}
+        GOOGLE_DRIVE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS_JSON }}
