@@ -36,4 +36,6 @@ jobs:
         GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
         GOOGLE_DRIVE_PUBLIC_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_PUBLIC_FOLDER_ID }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+        GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
         GOOGLE_DRIVE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS_JSON }}
