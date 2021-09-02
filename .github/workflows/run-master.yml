@@ -1,16 +1,19 @@
 name: Run master script
 
 on:
-  release:
-      types: [published]
+  schedule:
+    # A cada hora
+    - cron: '0 * * * *'
 
-  # Allows you to run this workflow manually from the Actions tab
+    # Todo dia as 01:00
+    # - cron: '0 1 * * *'
+
   workflow_dispatch:
 
 jobs:
   run-master:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    # runs-on: ubuntu-18.04
 
     steps:
     - name: "Checkout code"
