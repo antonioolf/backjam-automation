@@ -5,15 +5,12 @@ on:
     # A cada hora
     - cron: '0 * * * *'
 
-    # Todo dia as 01:00
-    # - cron: '0 1 * * *'
-
   workflow_dispatch:
 
 jobs:
   run-master:
-    # runs-on: ubuntu-20.04
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
+    # runs-on: ubuntu-18.04
 
     steps:
     - name: "Checkout code"
