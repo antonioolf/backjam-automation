@@ -1,5 +1,6 @@
 import os
 import re
+from env import gh_token
 
 
 class Functions:
@@ -23,7 +24,7 @@ class Functions:
         print('Publicando backing-tracks.json usando Git')
         os.system(
             'git init && '
-            'git remote set-url origin git@github.com:antonioolf/backjam-automation.git && '
+            f'git remote set-url origin https://antonioolf:{gh_token}@github.com/antonioolf/backjam-automation.git'
             'git reset && '
             'git add backing-tracks.json && '
             'git commit -m "Update backing-tracks.json" && '
