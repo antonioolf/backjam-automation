@@ -24,9 +24,8 @@ class Functions:
         print('Publicando backing-tracks.json usando Git')
         os.system(
             'git init && '
-            f'git remote set-url --push origin https://antonioolf:{gh_token}@github.com/antonioolf/backjam-automation.git'
             # 'git reset && '
             'git add backing-tracks.json && '
             'git commit -m "Update backing-tracks.json" && '
-            'git push -u origin main'
+            f'git push https://{gh_token}@github.com/antonioolf/backjam-automation.git'
         )
