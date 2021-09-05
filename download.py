@@ -46,9 +46,15 @@ def run_youtube_dl():
               '--batch-file=./to-download.txt')
 
 
+def show_duplicates(ids):
+    duplicates = set([dup for dup in ids if ids.count(dup) > 1])
+    print(f'Vídeos duplicados: {duplicates}')
+
+
 def run():
     Functions.delete_non_mp3_files()
     video_ids = YouTube.get_video_ids_from_playlist(playlist_id)
+    show_duplicates(video_ids)
     video_id_without_file_list = find_ids_without_file(video_ids)
     update_to_download_file(video_id_without_file_list)
     if len(video_id_without_file_list) > 0:
