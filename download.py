@@ -43,7 +43,8 @@ def run_youtube_dl():
     print('Executando youtube-dl...')
     os.system('youtube-dl --extract-audio --audio-format mp3 '
               '-o "./downloads/%(id)s - duration={{%(duration)s}} - %(title)s.%(ext)s" '
-              '--batch-file=./to-download.txt')
+              '--batch-file=./to-download.txt '
+              '--no-progress')
 
 
 def show_duplicates(ids):
