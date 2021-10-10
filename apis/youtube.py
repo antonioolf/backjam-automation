@@ -31,7 +31,7 @@ class YouTube:
         playlist_videos_url = f'{youtube_api}/playlistItems?' \
                               f'key={youtube_api_key}' \
                               f'&playlistId={playlist_id}' \
-                              f'&part=snippet,id' \
+                              f'&part=snippet,id,status' \
                               f'&type=video' \
                               f'&maxResults={max_results}'
 

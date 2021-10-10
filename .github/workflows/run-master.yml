@@ -1,21 +1,24 @@
 name: Run master script
 
 on:
-  schedule:
+  #schedule:
     # A cada hora
-    - cron: '0 * * * *'
+    # - cron: '0 * * * *'
 
   workflow_dispatch:
+    inputs:
+      playlist_url:
+        description: 'YouTube playlist URL'
+        required: true
 
 jobs:
   run-master:
     runs-on: ubuntu-20.04
-    # runs-on: ubuntu-18.04
 
     steps:
     - name: "Checkout code"
       uses: actions/checkout@v2
-    
+
     - name: "Configure python"
       uses: actions/setup-python@v2
       with:
@@ -32,7 +35,6 @@ jobs:
       run: python master.py
       env:
         YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        PLAYLIST_ID: ${{ secrets.PLAYLIST_ID }}
         GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
         GOOGLE_DRIVE_PUBLIC_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_PUBLIC_FOLDER_ID }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
