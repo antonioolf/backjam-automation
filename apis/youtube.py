@@ -6,6 +6,9 @@ def get_ids_from_response(json):
     ids = []
 
     for video in json['items']:
+        if video['status']['privacyStatus'] is not 'public':
+            continue
+
         video_id = video['snippet']['resourceId']['videoId']
         ids.append(video_id)
 

@@ -40,7 +40,7 @@ def run(playlist_id):
     with open(f'json/playlists/{playlist_id}.json', 'w') as file:
         file.write(json.dumps(google_drive_files, indent=4))
 
-    Functions.commit_push_backing_tracks_json()
+    Functions.commit_push_backing_tracks_json(playlist_id)
 
 
 if __name__ == '__main__':
