@@ -37,7 +37,7 @@ def run(playlist_id):
     google_drive_files = GoogleDrive.get_google_drive_files_list()
     print('Atualizando lista pública do aplicativo')
 
-    with open('backing-tracks.json', 'w') as file:
+    with open(f'json/playlists/{playlist_id}.json', 'w') as file:
         file.write(json.dumps(google_drive_files, indent=4))
 
     Functions.commit_push_backing_tracks_json()

@@ -35,5 +35,28 @@ A automação possui os seguintes 4 módulos: `download.py`, `upload.py`, `publi
 - Obtém a lista de arquivos do Google Drive, desta vez atualizada
 - Atualiza, commita e sobe arquivo backing-tracks.json atualizado
 
-## TO-DO list
-- [ ] Fazer tratativas necessárias para a automação e aplicativo quando a playlist atingir o limite de 5000 vídeos
+# multiple-playlists
+```
+/json
+    playlists-index.json
+    [
+        {
+            title: "Rock"
+            playlist_id: eoiwvx23423lkjfd
+            thumb: "falksdjflkj.png"
+        },
+        {
+            title: "Jazz"
+            playlist_id: eoiwvx23423lkjfd
+            thumb: "falksdjflkj.png"
+        }
+    ]
+    
+    playlists/
+        flakjsdfkja.json
+        laskflajdfl.json
+        laskflajdfl.json
+        woeiueiurow.json
+
+```
+    

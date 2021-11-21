@@ -16,7 +16,9 @@ if __name__ == '__main__':
     playlist_objs = get_playlists_objs()
 
     for obj in playlist_objs:
-        download.run(obj['playlist_id'])
+        playlist_id = obj['playlist_id']
+
+        download.run(playlist_id)
         upload.run()
-        publish.run(obj['playlist_id'])
-        remove.run(obj['playlist_id'])
+        publish.run(playlist_id)
+        remove.run(playlist_id)
