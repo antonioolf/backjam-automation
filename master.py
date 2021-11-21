@@ -17,6 +17,7 @@ if __name__ == '__main__':
 
     for obj in playlist_objs:
         playlist_id = obj['playlist_id']
+        print(f'Iniciando automação: ${playlist_id}')
 
         download.run(playlist_id)
         upload.run()
