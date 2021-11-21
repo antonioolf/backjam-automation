@@ -6,10 +6,10 @@ on:
     # - cron: '0 * * * *'
 
   workflow_dispatch:
-    inputs:
-      playlist_url:
-        description: 'YouTube playlist URL'
-        required: true
+#    inputs:
+#      playlist_url:
+#        description: 'YouTube playlist URL'
+#        required: true
 
 jobs:
   run-master:
