@@ -1,8 +1,8 @@
 import os
 import re
+import sys
 
 from apis.youtube import YouTube
-from env import playlist_id
 from functions import Functions
 from apis.google_drive import GoogleDrive
 
@@ -52,7 +52,7 @@ def show_duplicates(ids):
     print(f'Vídeos duplicados: {duplicates}')
 
 
-def run():
+def run(playlist_id):
     Functions.delete_non_mp3_files()
     video_ids = YouTube.get_video_ids_from_playlist(playlist_id)
     show_duplicates(video_ids)
@@ -65,4 +65,6 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    playlist_id_argument = sys.argv[1:]
+    if playlist_id_argument is not None:
+        run(playlist_id_argument)

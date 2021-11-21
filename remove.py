@@ -1,13 +1,14 @@
+import sys
+
 import json
 import re
 
 from apis.google_drive import GoogleDrive
 from apis.youtube import YouTube
-from env import playlist_id
 from functions import Functions
 
 
-def get_to_remove_list():
+def get_to_remove_list(playlist_id):
     playlist_video_ids = YouTube.get_video_ids_from_playlist(playlist_id)
     google_drive_files = GoogleDrive.get_google_drive_files_list()
 
@@ -23,8 +24,8 @@ def get_to_remove_list():
     return to_remove
 
 
-def run():
-    to_remove_list = get_to_remove_list()
+def run(playlist_id):
+    to_remove_list = get_to_remove_list(playlist_id)
 
     if not to_remove_list:
         print("Nenhum arquivo para ser removido do Google Drive")
@@ -43,4 +44,6 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    playlist_id_argument = sys.argv[1:]
+    if playlist_id_argument is not None:
+        run(playlist_id_argument)
