@@ -20,14 +20,14 @@ class Functions:
             os.remove(file)
 
     @staticmethod
-    def commit_push_backing_tracks_json():
-        print('Publicando backing-tracks.json usando Git')
+    def commit_push_backing_tracks_json(playlist_id):
+        print(f'Publicando {playlist_id}.json usando Git')
         os.system(
             'git init && '
             f'git remote set-url origin https://antonioolf:{gh_token}@backjam-automation.git && '
             f'git config --global user.email "{git_user_email}" && '
             f'git config --global user.name "{git_user_name}" && '
-            'git add backing-tracks.json && '
-            'git commit -m "Update backing-tracks.json" && '
+            f'git add json/playlists/{playlist_id}.json && '
+            f'git commit -m "Update {playlist_id}.json" && '
             f'git push https://{gh_token}@github.com/antonioolf/backjam-automation.git'
         )

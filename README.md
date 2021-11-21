@@ -25,15 +25,15 @@ A automação possui os seguintes 4 módulos: `download.py`, `upload.py`, `publi
 - Deleta arquivos locais que foram sincronizados com o Google Drive
 
 ### Publish
-- Atualiza lista que será utilizada para alimentar o aplicativo (`backing-tracks.json`)
-- Commita as alterações do arquivo `backing-tracks.json` e sobe para o repositório.
+- Atualiza o arquivo {playlist_id}.json que será utilizada para alimentar o aplicativo
+- Commita as alterações do arquivo {playlist_id}.json atual e sobe para o repositório.
 
 ### Remove
 - Obtém lista de vídeos da playlist do YouTube
 - Obtém lista de arquivos do Google Drive, confronta com lista do YouTube e verifica se algum arquivo deve ser removido do Google Drive.
 - Deleta do Google Drive os arquivos obtidos na verificação
 - Obtém a lista de arquivos do Google Drive, desta vez atualizada
-- Atualiza, commita e sobe arquivo backing-tracks.json atualizado
+- Atualiza, commita e sobe arquivo {playlist_id}.json atualizado
 
 # multiple-playlists
 ```

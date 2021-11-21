@@ -16,7 +16,7 @@ def run(playlist_id):
     google_drive_files = GoogleDrive.get_google_drive_files_list()
     update_public_list(json.dumps(google_drive_files, indent=4), playlist_id)
 
-    Functions.commit_push_backing_tracks_json()
+    Functions.commit_push_backing_tracks_json(playlist_id)
 
 
 if __name__ == '__main__':
